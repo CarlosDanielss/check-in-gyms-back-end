@@ -5,10 +5,25 @@ import { User } from "@/domain/models/user.js";
 import {
   UserRepository,
   UserRepositoryCreate,
+  UserRepositoryUpdate,
 } from "@/domain/protocols/user-repository.js";
 
 export class InMemoryUserRepository implements UserRepository {
   public items: User[] = [];
+
+  async update({ id, ...data }: UserRepositoryUpdate): Promise<User> {
+    const userIndex = this.items.findIndex((item) => item.id === id);
+
+    console.log(userIndex)
+
+    const existingData = this.items[userIndex];
+
+    const updateData = { ...existingData, ...data };
+
+    this.items[userIndex] = updateData;
+
+    return updateData;
+  }
 
   async findById(id: string): Promise<User | null> {
     const user = this.items.find((item) => item.id === id);
