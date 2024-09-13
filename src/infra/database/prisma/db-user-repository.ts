@@ -3,26 +3,12 @@ import { User } from "@/domain/models/user.js";
 import {
   UserRepository,
   UserRepositoryCreate,
-  UserRepositorySearchMany,
   UserRepositoryUpdate,
 } from "@/domain/protocols/user-repository.js";
 
 import { prisma } from "./index.js";
 
 export class DbUserRepository implements UserRepository {
-  async searchMany(
-    page: number,
-    query?: UserRepositorySearchMany
-  ): Promise<User[]> {
-    return await prisma.user.findMany({
-      where: {
-        ...query,
-      },
-      take: 20,
-      skip: (page - 1) * 20,
-    });
-  }
-
   async update({ id, name, email }: UserRepositoryUpdate): Promise<User> {
     return await prisma.user.update({
       where: { id },

@@ -11,7 +11,6 @@ export type UserRepositoryCreate = Pick<User, "name" | "email" | "password"> &
   Partial<Pick<User, "role">>;
 
 export interface UserRepository {
-  searchMany(page: number, query?: UserRepositorySearchMany): Promise<User[]>;
   update(user: UserRepositoryUpdate): Promise<User>;
   findById(id: string): Promise<User | null>;
   findByEmail(email: string): Promise<User | null>;

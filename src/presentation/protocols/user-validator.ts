@@ -1,6 +1,6 @@
 import { User } from "@/domain/models/user.js";
 
-export type UserValidatorRead = { page: number };
+export type UserValidatorProfileRecovery = { id: string };
 
 export type UserValidatorUpdate = Pick<User, "id"> &
   Partial<Pick<User, "name" | "email">>;
@@ -8,7 +8,9 @@ export type UserValidatorUpdate = Pick<User, "id"> &
 export type UserValidatorRegister = Pick<User, "name" | "email" | "password">;
 
 export interface UserValidator {
-  read(page: string): UserValidatorRead;
+  profileRecovery(
+    id: UserValidatorProfileRecovery
+  ): UserValidatorProfileRecovery;
   update(user: UserValidatorUpdate): UserValidatorUpdate;
   register(user: UserValidatorRegister): UserValidatorRegister;
 }

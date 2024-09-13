@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import {
   UserValidator,
-  UserValidatorRead,
+  UserValidatorProfileRecovery,
   UserValidatorRegister,
   UserValidatorUpdate,
 } from "@/presentation/protocols/user-validator.js";
@@ -10,20 +10,22 @@ import {
 import { InvalidCredentialsError } from "@/domain/erros/invalid-credentials-error.js";
 
 export class UserValidatorAdapter implements UserValidator {
-  read(page: string): UserValidatorRead {
-    const readSchema = z.object({
-      page: z.coerce.number().min(1),
+  profileRecovery(
+    id: UserValidatorProfileRecovery
+  ): UserValidatorProfileRecovery {
+    const profileRecoverySchema = z.object({
+      id: z.string().uuid(),
     });
 
-    const isValid = readSchema.safeParse(page);
+    const validation = profileRecoverySchema.safeParse(id);
 
-    if (isValid.error) {
-      const { path, message } = isValid.error.issues[0];
+    if (validation.error) {
+      const { path, message } = validation.error.issues[0];
 
       throw new InvalidCredentialsError(String(path[0]), message);
     }
 
-    return isValid.data;
+    return validation.data;
   }
 
   update({ id, name, email }: UserValidatorUpdate): UserValidatorUpdate {
@@ -52,15 +54,15 @@ export class UserValidatorAdapter implements UserValidator {
         }
       );
 
-    const isValid = updateSchema.safeParse({ id, name, email });
+    const validation = updateSchema.safeParse({ id, name, email });
 
-    if (isValid.error) {
-      const { path, message } = isValid.error.issues[0];
+    if (validation.error) {
+      const { path, message } = validation.error.issues[0];
 
       throw new InvalidCredentialsError(String(path[0]), message);
     }
 
-    return isValid.data;
+    return validation.data;
   }
 
   register({
@@ -85,14 +87,14 @@ export class UserValidatorAdapter implements UserValidator {
         ),
     });
 
-    const isValid = registerSchema.safeParse({ name, email, password });
+    const validation = registerSchema.safeParse({ name, email, password });
 
-    if (isValid.error) {
-      const { path, message } = isValid.error.issues[0];
+    if (validation.error) {
+      const { path, message } = validation.error.issues[0];
 
       throw new InvalidCredentialsError(String(path[0]), message);
     }
 
-    return isValid.data;
+    return validation.data;
   }
 }
