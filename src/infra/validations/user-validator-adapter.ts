@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import {
   UserValidator,
+  UserValidatorRead,
   UserValidatorRegister,
   UserValidatorUpdate,
 } from "@/presentation/protocols/user-validator.js";
@@ -9,6 +10,22 @@ import {
 import { InvalidCredentialsError } from "@/domain/erros/invalid-credentials-error.js";
 
 export class UserValidatorAdapter implements UserValidator {
+  read(page: string): UserValidatorRead {
+    const readSchema = z.object({
+      page: z.coerce.number().min(1),
+    });
+
+    const isValid = readSchema.safeParse(page);
+
+    if (isValid.error) {
+      const { path, message } = isValid.error.issues[0];
+
+      throw new InvalidCredentialsError(String(path[0]), message);
+    }
+
+    return isValid.data;
+  }
+
   update({ id, name, email }: UserValidatorUpdate): UserValidatorUpdate {
     const updateSchema = z
       .object({

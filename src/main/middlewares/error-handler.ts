@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 
 import { env } from "../config/env.js";
 
-interface ErrorHandler extends Error {
+export interface ErrorHandler extends Error {
   statusCode?: number;
 }
 

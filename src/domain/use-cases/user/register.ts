@@ -23,8 +23,6 @@ export class RegisterUseCase implements UseCase<RegisterInput, RegisterOutput> {
   }: RegisterInput): Promise<RegisterOutput> {
     const userAlreadyExists = await this.userRepository.findByEmail(email);
 
-    console.log(userAlreadyExists)
-
     if (userAlreadyExists) {
       throw new AlreadyExists("User");
     }

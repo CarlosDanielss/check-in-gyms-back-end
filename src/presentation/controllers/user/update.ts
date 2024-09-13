@@ -1,10 +1,13 @@
-import { InvalidCredentialsError } from "@/domain/erros/invalid-credentials-error.js";
 import { User } from "@/domain/models/user.js";
-import { UpdateUseCase } from "@/domain/use-cases/user/update.js";
-import { created } from "@/presentation/helpers/http-helper.js";
+
 import { Controller } from "@/presentation/protocols/controller.js";
-import { HttpRequest, HttpResponse } from "@/presentation/protocols/http.js";
 import { UserValidator } from "@/presentation/protocols/user-validator.js";
+import { HttpRequest, HttpResponse } from "@/presentation/protocols/http.js";
+
+import { UpdateUseCase } from "@/domain/use-cases/user/update.js";
+
+import { InvalidCredentialsError } from "@/domain/erros/invalid-credentials-error.js";
+import { sucess } from "@/presentation/helpers/http-helper.js";
 
 type UpdateRequest = Pick<User, "name" | "email">;
 
@@ -34,8 +37,8 @@ export class UpdateController
 
     await this.updateuseCase.execute({ id, name, email });
 
-    return created<UpdateResponse>({
-      message: "deu bom",
+    return sucess<UpdateResponse>({
+      message: "user updated successfully",
     });
   }
 }
