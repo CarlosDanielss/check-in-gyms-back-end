@@ -1,8 +1,9 @@
 import { beforeEach, describe, expect, it } from "vitest";
 
+import { EnvValidator } from "@/main/protocols/env-validator.js";
 import { EnvValidatorAdapter } from "./env-validator-adapter.js";
 
-let sut: EnvValidatorAdapter;
+let sut: EnvValidator;
 
 describe("Env Validator Adapter", () => {
   beforeEach(() => {
