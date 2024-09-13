@@ -88,4 +88,22 @@ describe("Env Validator Adapter", () => {
       Error(`Invalid environment variables [DATABASE_URL]`)
     );
   });
+
+  it("should successfully validate the fields", () => {
+    const environment = {
+      NODE_ENV: "test",
+      JWT_SECRET: "jwtsecrettest",
+      PORT: "3333",
+      DATABASE_URL: "postgresql://test:123456@localhost:5432/test",
+    };
+
+    const validation = sut.exec(environment);
+
+    expect(validation).toEqual({
+      NODE_ENV: "test",
+      JWT_SECRET: "jwtsecrettest",
+      PORT: 3333,
+      DATABASE_URL: "postgresql://test:123456@localhost:5432/test",
+    });
+  });
 });
