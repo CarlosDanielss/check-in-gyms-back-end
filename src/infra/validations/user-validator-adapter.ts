@@ -49,6 +49,7 @@ export class UserValidatorAdapter implements UserValidator {
           return hasName ?? hasEmail;
         },
         {
+          path: ["name or email"],
           message:
             "If currentPassword or newPassword are provided, both must be provided.",
         }
