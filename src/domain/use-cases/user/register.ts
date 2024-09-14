@@ -29,7 +29,7 @@ export class RegisterUseCase implements UseCase<RegisterInput, RegisterOutput> {
 
     const passwordHash = await this.encrypter.encrypt(password);
 
-    const { password: pass, ...rest } = await this.userRepository.create({
+    const { password: _, ...rest } = await this.userRepository.create({
       name,
       email,
       password: passwordHash,
