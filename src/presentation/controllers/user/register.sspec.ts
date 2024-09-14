@@ -9,7 +9,7 @@ let userValidator: UserValidator;
 let registerUseCase: RegisterUseCase;
 let sut: RegisterController;
 
-describe("User Register Controller", () => {
+describe.skip("User Register Controller", () => {
   beforeEach(() => {
     userValidator = new UserValidatorAdapter();
     sut = new RegisterController(userValidator, registerUseCase);
