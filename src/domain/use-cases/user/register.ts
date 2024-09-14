@@ -8,7 +8,7 @@ import { AlreadyExists } from "@/domain/erros/already-exists-error.js";
 
 type RegisterInput = Pick<User, "name" | "email" | "password">;
 
-type RegisterOutput = Omit<User, "password">;
+type RegisterOutput = User;
 
 export class RegisterUseCase implements UseCase<RegisterInput, RegisterOutput> {
   constructor(
@@ -29,12 +29,12 @@ export class RegisterUseCase implements UseCase<RegisterInput, RegisterOutput> {
 
     const passwordHash = await this.encrypter.encrypt(password);
 
-    const { password: _, ...rest } = await this.userRepository.create({
+    const user = await this.userRepository.create({
       name,
       email,
       password: passwordHash,
     });
 
-    return rest;
+    return user;
   }
 }
