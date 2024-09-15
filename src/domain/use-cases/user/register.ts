@@ -24,7 +24,7 @@ export class RegisterUseCase implements UseCase<RegisterInput, RegisterOutput> {
     const userAlreadyExists = await this.userRepository.findByEmail(email);
 
     if (userAlreadyExists) {
-      throw new AlreadyExists("User");
+      throw new AlreadyExists("user");
     }
 
     const passwordHash = await this.encrypter.encrypt(password);

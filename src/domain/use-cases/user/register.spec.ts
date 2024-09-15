@@ -36,7 +36,7 @@ describe("Register Use Case", () => {
     await sut.execute(user);
 
     expect(() => sut.execute(user)).rejects.toBeInstanceOf(AlreadyExists);
-    expect(() => sut.execute(user)).rejects.toEqual(new AlreadyExists("User"));
+    expect(() => sut.execute(user)).rejects.toEqual(new AlreadyExists("user"));
   });
 
   it("should hash user password upon registration", async () => {
