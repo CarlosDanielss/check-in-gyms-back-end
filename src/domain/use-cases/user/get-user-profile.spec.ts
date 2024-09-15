@@ -1,15 +1,15 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { randomUUID } from "crypto";
 
+import { Encrypter } from "@/domain/protocols/encrypter.js";
 import { UserRepository } from "@/domain/protocols/user-repository.js";
 
+import { EncrypterAdapter } from "@/infra/criptography/encrypter-adapter.js";
 import { InMemoryUserRepository } from "@/infra/database/in-memory/in-memory-user-repository.js";
-
-import { ContentNotFount } from "@/domain/erros/content-not-found.js";
 import { GetUserProfileUseCase } from "./get-user-profile.js";
 import { RegisterUseCase } from "./register.js";
-import { Encrypter } from "@/domain/protocols/encrypter.js";
-import { EncrypterAdapter } from "@/infra/criptography/encrypter-adapter.js";
+
+import { ContentNotFount } from "@/domain/erros/content-not-found.js";
 
 let encrypter: Encrypter;
 let userRepository: UserRepository;
