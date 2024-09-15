@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import {
   UserValidator,
+  UserValidatorAuthenticate,
   UserValidatorProfileRecovery,
   UserValidatorRegister,
   UserValidatorUpdate,
@@ -10,6 +11,26 @@ import {
 import { InvalidCredentialsError } from "@/domain/erros/invalid-credentials-error.js";
 
 export class UserValidatorAdapter implements UserValidator {
+  authenticate({
+    email,
+    password,
+  }: UserValidatorAuthenticate): UserValidatorAuthenticate {
+    const authenticateSchema = z.object({
+      email: z.string().email().trim(),
+      password: z
+        .string()
+        .min(8)
+    });
+
+    const validation = authenticateSchema.safeParse({ email, password });
+
+    if (validation.error) {
+      throw new InvalidCredentialsError("e-mail or password", "invalid");
+    }
+
+    return validation.data;
+  }
+
   profileRecovery(
     id: UserValidatorProfileRecovery
   ): UserValidatorProfileRecovery {

@@ -261,4 +261,70 @@ describe("User Validator Adapter", () => {
       });
     });
   });
+
+  describe("Authenticate", () => {
+    it("should return an error if the email field is not provided", () => {
+      const user = {
+        email: "",
+        password: "Test123@",
+      };
+
+      expect(() => sut.authenticate(user)).toThrow(
+        new InvalidCredentialsError("e-mail or password", "invalid")
+      );
+    });
+
+    it("should return an error if the password field is not provided", () => {
+      const user = {
+        email: "test@test.com",
+        password: "",
+      };
+
+      expect(() => sut.authenticate(user)).toThrow(
+        new InvalidCredentialsError(
+          "e-mail or password",
+          "invalid"
+        )
+      );
+    });
+    
+    it("should return an error if the email field provided is invalid", () => {
+      const user = {
+        email: "test.com",
+        password: "Test123@",
+      };
+
+      expect(() => sut.authenticate(user)).toThrow(
+        new InvalidCredentialsError("e-mail or password", "invalid")
+      );
+    });
+
+    it("should return an error if the given password field is less than 8 characters long", () => {
+      const user = {
+        email: "test@test.com",
+        password: "1234567",
+      };
+
+      expect(() => sut.authenticate(user)).toThrow(
+        new InvalidCredentialsError(
+          "e-mail or password",
+          "invalid"
+        )
+      );
+    });
+
+    it("should successfully validate the fields", () => {
+      const user = {
+        email: "test@test.com",
+        password: "Test123@",
+      };
+
+      const validation = sut.authenticate(user);
+
+      expect(validation).toEqual({
+        email: "test@test.com",
+        password: "Test123@",
+      });
+    });
+  });
 });
