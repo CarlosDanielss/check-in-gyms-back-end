@@ -5,7 +5,7 @@ import { UserRepository } from "@/domain/protocols/user-repository.js";
 
 type GetUserProfileInput = Pick<User, "id">;
 
-type GetUserProfileOutput = User;
+type GetUserProfileOutput = Omit<User, "password" | "created_at">;
 
 export class GetUserProfileUseCase
   implements UseCase<GetUserProfileInput, GetUserProfileOutput>
@@ -19,6 +19,8 @@ export class GetUserProfileUseCase
       throw new ContentNotFount("user");
     }
 
-    return user;
+    const { password, created_at, ...rest } = user;
+
+    return rest;
   }
 }
