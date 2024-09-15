@@ -7,6 +7,7 @@ export default [
   { languageOptions: { globals: globals.node } },
   {
     rules: {
+      "@typescript-eslint/no-explicit-any": "false",
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
