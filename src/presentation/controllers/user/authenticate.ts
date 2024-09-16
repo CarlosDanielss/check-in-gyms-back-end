@@ -35,21 +35,12 @@ export class AuthenticateController
       { role: user.role },
       {
         subject: user.id,
-        expiresIn: "1h",
-      }
-    );
-
-    const refreshToken = this.token.generateToken(
-      { role: user.role },
-      {
-        subject: user.id,
         expiresIn: "7d",
       }
     );
 
     return sucess<AuthenticateResponse>(null, {
       token,
-      refreshToken,
     });
   }
 }
