@@ -5,7 +5,7 @@ import { UseCase } from "@/domain/protocols/use-case.js";
 import { GymRepository } from "@/domain/protocols/gym-repository.js";
 import { AlreadyExists } from "@/domain/erros/already-exists-error.js";
 
-type CreateInput = Omit<Gym, "id">;
+type CreateInput = Omit<Gym, "id" | "CheckIn">;
 
 type CreateOutput = Gym;
 
@@ -19,7 +19,6 @@ export class CreateUseCase implements UseCase<CreateInput, CreateOutput> {
     phone,
     latitude,
     longitude,
-    CheckIn,
   }: CreateInput): Promise<CreateOutput> {
     const gymAlreadyExists = await this.gymRepository.findByCnpj(cnpj);
 
@@ -34,7 +33,6 @@ export class CreateUseCase implements UseCase<CreateInput, CreateOutput> {
       phone,
       latitude,
       longitude,
-      CheckIn,
     });
 
     return gym;

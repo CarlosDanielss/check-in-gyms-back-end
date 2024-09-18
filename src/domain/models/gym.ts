@@ -1,3 +1,4 @@
+import { Decimal } from "@prisma/client/runtime/library";
 import { CheckIn } from "./check-in.js";
 
 export type Gym = {
@@ -6,7 +7,7 @@ export type Gym = {
   cnpj: string;
   description?: string | null;
   phone?: string | null;
-  latitude: number | string;
-  longitude: number | string;
+  latitude: number | string | Decimal;
+  longitude: number | string | Decimal;
   CheckIn?: CheckIn[];
 };
