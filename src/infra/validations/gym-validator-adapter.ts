@@ -19,14 +19,15 @@ export class GymValidatorAdapter implements GymValidator {
     const createSchema = z.object({
       title: z.string().min(4).trim().toLowerCase(),
       cnpj: z.string().min(14).trim(),
-      description: z.string().trim().optional(),
+      description: z.string().trim().nullable().default(null),
       phone: z
         .string()
         .max(15)
         .regex(/^\+?[1-9]\d{1,15}$/, {
           message: "format invalid",
         })
-        .optional(),
+        .nullable()
+        .default(null),
       latitude: z.number().refine((value) => {
         return Math.abs(value) <= 90;
       }),
