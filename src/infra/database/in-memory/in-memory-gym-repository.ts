@@ -2,13 +2,29 @@ import { randomUUID } from "node:crypto";
 
 import { Gym } from "@/domain/models/gym.js";
 
+import { getDistanceBetweenCoordinates } from "@/utils/get-distance-between-coordinates.js";
 import {
   GymRepository,
   GymRepositoryCreate,
+  GymRepositoryFindManyNearby,
 } from "@/domain/protocols/gym-repository.js";
 
 export class InMemoryGymRepository implements GymRepository {
   public items: Gym[] = [];
+
+  async findManyNearby(data: GymRepositoryFindManyNearby): Promise<Gym[]> {
+    return this.items.filter((item) => {
+      const distance = getDistanceBetweenCoordinates(
+        { latitude: data.latitude, longitude: data.longitude },
+        {
+          latitude: Number(item.latitude),
+          longitude: Number(item.longitude),
+        }
+      );
+
+      return distance < 10;
+    });
+  }
 
   async findByCnpj(cnpj: string): Promise<Gym | null> {
     const gym = this.items.find((item) => item.cnpj === cnpj);

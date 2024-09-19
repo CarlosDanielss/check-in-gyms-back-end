@@ -7,7 +7,7 @@ export type Gym = {
   cnpj: string;
   description?: string | null;
   phone?: string | null;
-  latitude: number | string | Decimal;
-  longitude: number | string | Decimal;
+  latitude: number | Decimal;
+  longitude: number | Decimal;
   CheckIn?: CheckIn[];
 };
