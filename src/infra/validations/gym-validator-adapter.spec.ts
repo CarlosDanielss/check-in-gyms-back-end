@@ -196,85 +196,40 @@ describe("Gym Validator Adapter", () => {
     });
   });
 
-  describe.skip("Update", () => {
-    it("should return an error if the id field is not provided", () => {
-      const user = {
-        id: "",
-        name: "test test",
-        email: "test@test.com",
+  describe("Nearby Gym", () => {
+    it("should return an error if the latitude field contains an invalid value", () => {
+      const gym = {
+        latitude: 2349845723498234,
+        longitude: -49.6401091,
       };
 
-      expect(() => sut.update(user)).toThrow(
-        new InvalidCredentialsError("id", "Invalid uuid")
+      expect(() => sut.nearbyGym(gym)).toThrow(
+        new InvalidCredentialsError("latitude", "Invalid input")
       );
     });
 
-    it("should return an error if name or email field is not provided", () => {
-      const user = {
-        id: UUID,
+    it("should return an error if the longitude field contains an invalid value", () => {
+      const gym = {
+        latitude: -49.6401091,
+        longitude: 1231232131231233,
       };
 
-      expect(() => sut.update(user)).toThrow(
-        new InvalidCredentialsError(
-          "name or email",
-          "If currentPassword or newPassword are provided, both must be provided."
-        )
-      );
-    });
-
-    it("should return an error if the given name field contains numbers", () => {
-      const user = {
-        id: UUID,
-        name: "test12",
-      };
-
-      expect(() => sut.update(user)).toThrow(
-        new InvalidCredentialsError(
-          "name",
-          "The name must not contain any numbers."
-        )
-      );
-    });
-
-    it("should return an error if the given name field is less than 5 characters long", () => {
-      const user = {
-        id: UUID,
-        name: "test",
-      };
-
-      expect(() => sut.update(user)).toThrow(
-        new InvalidCredentialsError(
-          "name",
-          "String must contain at least 5 character(s)"
-        )
-      );
-    });
-
-    it("should return an error if the email field provided is invalid", () => {
-      const user = {
-        id: UUID,
-        name: "test test",
-        email: "test.com",
-      };
-
-      expect(() => sut.update(user)).toThrow(
-        new InvalidCredentialsError("email", "Invalid email")
+      expect(() => sut.nearbyGym(gym)).toThrow(
+        new InvalidCredentialsError("longitude", "Invalid input")
       );
     });
 
     it("should successfully validate the fields", () => {
-      const user = {
-        id: UUID,
-        name: "test test",
-        email: "test@test.com",
+      const gym = {
+        latitude: -49.6401091,
+        longitude: -49.6401091,
       };
 
-      const validation = sut.update(user);
+      const validation = sut.nearbyGym(gym);
 
       expect(validation).toEqual({
-        id: user.id,
-        name: "test test",
-        email: "test@test.com",
+        latitude: -49.6401091,
+        longitude: -49.6401091,
       });
     });
   });
