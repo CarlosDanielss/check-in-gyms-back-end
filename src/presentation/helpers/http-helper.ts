@@ -5,7 +5,7 @@ export const created = <T>(data: T) => {
   };
 };
 
-export const sucess = <T>(data: T, cookies?: Record<string, string>) => {
+export const success = <T>(data: T, cookies?: Record<string, string>) => {
   return {
     statusCode: 200,
     body: data,

@@ -7,7 +7,7 @@ import { HttpRequest, HttpResponse } from "@/presentation/protocols/http.js";
 import { UpdateUseCase } from "@/domain/use-cases/user/update.js";
 
 import { InvalidCredentialsError } from "@/domain/erros/invalid-credentials-error.js";
-import { sucess } from "@/presentation/helpers/http-helper.js";
+import { success } from "@/presentation/helpers/http-helper.js";
 
 type UpdateRequest = Pick<User, "name" | "email">;
 
@@ -37,7 +37,7 @@ export class UpdateController
 
     await this.updateuseCase.execute({ id, name, email });
 
-    return sucess<UpdateResponse>({
+    return success<UpdateResponse>({
       message: "user updated successfully",
     });
   }

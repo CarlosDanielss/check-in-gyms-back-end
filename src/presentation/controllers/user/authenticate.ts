@@ -7,7 +7,7 @@ import { Jwt } from "@/presentation/protocols/jwt.js";
 
 import { AuthenticateUseCase } from "@/domain/use-cases/user/authenticate.js";
 
-import { sucess } from "@/presentation/helpers/http-helper.js";
+import { success } from "@/presentation/helpers/http-helper.js";
 
 type AuthenticateRequest = Pick<User, "email" | "password">;
 
@@ -39,7 +39,7 @@ export class AuthenticateController
       }
     );
 
-    return sucess<AuthenticateResponse>(null, {
+    return success<AuthenticateResponse>(null, {
       token,
     });
   }
