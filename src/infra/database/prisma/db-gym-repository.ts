@@ -10,6 +10,20 @@ import { prisma } from "./index.js";
 import { Decimal } from "@prisma/client/runtime/library";
 
 export class DbGymRepository implements GymRepository {
+  async findMany(query: string, page: number): Promise<Gym[]> {
+    const gyms = await prisma.gym.findMany({
+      where: {
+        title: {
+          contains: query,
+        },
+      },
+      take: 20,
+      skip: (page - 1) * 20,
+    });
+
+    return gyms;
+  }
+
   async findManyNearby({
     latitude,
     longitude,
