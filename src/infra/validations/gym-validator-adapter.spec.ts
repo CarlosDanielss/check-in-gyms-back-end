@@ -234,6 +234,47 @@ describe("Gym Validator Adapter", () => {
     });
   });
 
+  describe("Search", () => {
+    it("should return an error if the query is not provided", () => {
+      const gym = {
+        query: "",
+        page: "1",
+      };
+
+      expect(() => sut.search(gym)).toThrow(
+        new InvalidCredentialsError(
+          "query",
+          "String must contain at least 1 character(s)"
+        )
+      );
+    });
+
+    it("should return an error if the page field contains an invalid value", () => {
+      const gym = {
+        query: "a",
+        page: "a",
+      };
+
+      expect(() => sut.search(gym)).toThrow(
+        new InvalidCredentialsError("page", "Expected number, received nan")
+      );
+    });
+
+    it("should successfully validate the fields", () => {
+      const gym = {
+        query: "a",
+        page: "1",
+      };
+
+      const validation = sut.search(gym);
+
+      expect(validation).toEqual({
+        query: "a",
+        page: 1,
+      });
+    });
+  });
+
   describe.skip("Profile Recovery", () => {
     it("should return an error if the id field is not provided", () => {
       const user = {
