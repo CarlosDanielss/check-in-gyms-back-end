@@ -1,6 +1,11 @@
 import { Gym } from "@/domain/models/gym.js";
 
-export type GymValidatorSearch = {
+export type GymValidatorSearchInput = {
+  query: string;
+  page: string;
+};
+
+export type GymValidatorSearchOutput = {
   query: string;
   page: number;
 };
@@ -13,7 +18,7 @@ export type GymValidatorNearby = {
 export type GymValidatorCreate = Omit<Gym, "id" | "CheckIn">;
 
 export interface GymValidator {
-  search(query: string, page: string): GymValidatorSearch;
+  search(data: GymValidatorSearchInput): GymValidatorSearchOutput;
   nearbyGym(locale: GymValidatorNearby): GymValidatorNearby;
   create(gym: GymValidatorCreate): GymValidatorCreate;
 }
