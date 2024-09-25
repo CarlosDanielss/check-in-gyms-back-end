@@ -4,11 +4,30 @@ import {
   GymValidator,
   GymValidatorCreate,
   GymValidatorNearby,
+  GymValidatorSearchInput,
+  GymValidatorSearchOutput,
 } from "@/presentation/protocols/gym-validator.js";
 
 import { InvalidCredentialsError } from "@/domain/erros/invalid-credentials-error.js";
 
 export class GymValidatorAdapter implements GymValidator {
+  search({ query, page }: GymValidatorSearchInput): GymValidatorSearchOutput {
+    const searchSchema = z.object({
+      query: z.string().min(1),
+      page: z.coerce.number().min(1),
+    });
+
+    const validation = searchSchema.safeParse({ query, page });
+
+    if (validation.error) {
+      const { path, message } = validation.error.issues[0];
+
+      throw new InvalidCredentialsError(String(path[0]), message);
+    }
+
+    return validation.data;
+  }
+
   nearbyGym({ latitude, longitude }: GymValidatorNearby): GymValidatorNearby {
     const nearbySchema = z.object({
       latitude: z.number().refine((value) => {
