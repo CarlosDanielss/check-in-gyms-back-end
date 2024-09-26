@@ -12,6 +12,16 @@ import {
 export class InMemoryGymRepository implements GymRepository {
   public items: Gym[] = [];
 
+  async findById(id: string): Promise<Gym | null> {
+    const gym = this.items.find((item) => item.id === id);
+
+    if (!gym) {
+      return null;
+    }
+
+    return gym;
+  }
+
   async findMany(query: string, page: number): Promise<Gym[]> {
     return this.items
       .filter((item) => item.title.includes(query))

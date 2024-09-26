@@ -10,6 +10,12 @@ import { prisma } from "./index.js";
 import { Decimal } from "@prisma/client/runtime/library";
 
 export class DbGymRepository implements GymRepository {
+  async findById(id: string): Promise<Gym | null> {
+    return await prisma.gym.findUnique({
+      where: { id },
+    });
+  }
+
   async findMany(query: string, page: number): Promise<Gym[]> {
     const gyms = await prisma.gym.findMany({
       where: {
