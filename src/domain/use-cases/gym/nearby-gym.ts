@@ -1,3 +1,4 @@
+import { ContentNotFount } from "@/domain/erros/content-not-found.js";
 import { Gym } from "@/domain/models/gym.js";
 import { GymRepository } from "@/domain/protocols/gym-repository.js";
 
@@ -20,6 +21,10 @@ export class NearbyGymUseCase
       latitude: Number(latitude),
       longitude: Number(longitude),
     });
+
+    if (gyms.length === 0) {
+      throw new ContentNotFount("gyms");
+    }
 
     return gyms;
   }
